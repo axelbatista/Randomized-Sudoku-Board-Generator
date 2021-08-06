@@ -1,0 +1,33 @@
+#shader Vertex
+#version 330 core
+
+layout(location = 0) in vec4 a_Position;
+layout(location = 1) in vec2 a_textCoord;
+layout(location = 2) in float a_TexIndex;
+
+out vec2 v_textCoord;
+out float v_TexIndex;
+
+void main() 
+{
+	gl_Position = a_Position;
+	v_textCoord = a_textCoord;
+	v_TexIndex = a_TexIndex;
+};
+
+#shader Fragment
+#version 330 core
+
+out vec4 color;
+in float v_TexIndex;
+
+in vec2 v_textCoord;
+uniform sampler2D u_Textures[10];
+uniform vec4 u_Color;
+
+
+void main() 
+{
+	int index = int(v_TexIndex);
+	color = texture(u_Textures[index], v_textCoord);
+};
