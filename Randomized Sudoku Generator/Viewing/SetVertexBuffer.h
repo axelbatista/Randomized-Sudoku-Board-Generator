@@ -1,6 +1,16 @@
 #pragma once
 
 
+//for the contiguous chunk of floats in our vertex buffer.
+//we assign every single float this way because the first
+//20 * sizeof(float) chunk of memory corresponds to the empty sudoku board.
+//which is entirely different than the other quadrilaterals that we set up
+//there after. It also has a unique texture slot identifier that is not
+//dependent on our sudoku board configuration, but it is hard to set up preemptively
+//because it resides in a contiguous chunk of memory.
+//the function underneath is for every individual cell in our grid, which has different values
+//each for their x, y positions, texture coordinates and it's texture slot.
+
 struct Vertex {
     float f1, f2, f3, f4, f5;
 };
