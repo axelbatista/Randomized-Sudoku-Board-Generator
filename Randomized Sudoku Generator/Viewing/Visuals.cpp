@@ -1,70 +1,13 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "Buffer.h"
-#include "Shader.h"
-#include "Texture.h"
+#include "BuffersAndStorage/Buffer.h"
+#include "BuffersAndStorage/Shader.h"
+#include "BuffersAndStorage/Texture.h"
 #include <array>
 #include <tuple>
+#include "SetVertexBuffer.h"
 
-extern std::vector<int> matrix;
-
-struct Vertex {
-    float f1, f2, f3, f4, f5;               //vertex per quadrilateral.
-};
-
-static void setSudokuStage(Vertex*& start) {
-    start->f1 = -0.5f;
-    start->f2 = -0.5f;
-    start->f3 = 0.0f;
-    start->f4 = 0.0f;
-    start->f5 = 0.0f;
-    start++;
-    start->f1 = 0.5f;
-    start->f2 = -0.5f;
-    start->f3 = 1.0f;
-    start->f4 = 0.0f;
-    start->f5 = 0.0f;
-    start++;
-    start->f1 = 0.5f;
-    start->f2 = 0.5f;
-    start->f3 = 1.0f;
-    start->f4 = 1.0f;
-    start->f5 = 0.0f;
-    start++;
-    start->f1 = -0.5f;
-    start->f2 = 0.5f;
-    start->f3 = 0.0f;
-    start->f4 = 1.0f;
-    start->f5 = 0.0f;
-    start++;
-}
-
-void getBackThing(Vertex*& start, float x, float y, float particularNumber) {
-    start->f1 = x;
-    start->f2 = y - 0.07f;
-    start->f3 = 0.0f;
-    start->f4 = 0.0f;
-    start->f5 = particularNumber;
-    start++;
-    start->f1 = x + 0.05f;
-    start->f2 = y - 0.07f;
-    start->f3 = 1.0f;
-    start->f4 = 0.0f;
-    start->f5 = particularNumber;
-    start++;
-    start->f1 = x + 0.05f;
-    start->f2 = y;
-    start->f3 = 1.0f;
-    start->f4 = 1.0f;
-    start->f5 = particularNumber;
-    start++;
-    start->f1 = x;
-    start->f2 = y;
-    start->f3 = 0.0f;
-    start->f4 = 1.0f;
-    start->f5 = particularNumber;
-    start++;
-}
+extern std::array<int, 81> matrix;
 
 void SetUpWindowAndVisuals() {
     GLFWwindow* window;
@@ -85,11 +28,9 @@ void SetUpWindowAndVisuals() {
     Vertex* index = array.data();               //and 82 quadrilaterals, that means that we need 82 * 4 vertices (each comprised of 5 floats
     setSudokuStage(index);                      //for our x, y position, texture coordinates, and our texture slot) to be stored inside of our
                                                 //vertex buffer.
-    float distance = 0.11f;
-    float heightDisplacement = 0.11f;           //arbitrary values I tinkered with that meshed well with our window size and textures because the numbers have all the same dimensions.
 
-    for (auto [y, start1] = std::tuple{ 0, 0.48f }; y < 9; y++, start1 -= heightDisplacement) {     
-        for (auto [x, start2] = std::tuple{ 0, -0.46f }; x < 9; x++, start2 += distance) {
+    for (auto [y, start1, heightDisplacement] = std::tuple{ 0, 0.48f, 0.11f }; y < 9; y++, start1 -= heightDisplacement) {     
+        for (auto [x, start2, distance] = std::tuple{ 0, -0.46f, 0.11f }; x < 9; x++, start2 += distance) {
             getBackThing(index, start2, start1, matrix[y * 9 + x]);                     //simple array indexing to set the texture slot for each vertex.
         }
     }
@@ -126,8 +67,7 @@ void SetUpWindowAndVisuals() {
 
     IndexBuffer ib{ indices, 82* 6 };                           //bind and transfer data from right above into here.
 
-
-    Shader program( "Viewing/ShaderInfo.text" );                //read our vertex and fragment shaders and tether them into our program here.
+    Shader program( "Viewing/BuffersAndStorage/ShaderInfo.text" );                //read our vertex and fragment shaders and tether them into our program here.
     program.Use();
     //program.setUniform("u_Color", 1.0f, 0.7f, 1.0f, 1.0f);        //color here if you would like to use it. Not necessary since we use the colors from the textures.
 

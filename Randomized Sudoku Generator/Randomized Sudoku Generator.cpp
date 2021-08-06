@@ -1,13 +1,13 @@
 
-#include <vector>
+#include <array>
 #include <random>
 #include <algorithm>
 std::random_device rng;
 std::mt19937 mt(rng());                     //necessary containers, mersenne twister, and boolean to check if we filled out the whole grid.
-std::vector<int> container(9);
-std::vector<std::vector<bool>> row(9, std::vector<bool>(9));
-std::vector<std::vector<bool>> column(9, std::vector<bool>(9));
-std::vector<int> matrix(81);
+std::array<int, 9> container;
+std::array<std::array<bool, 9>, 9> row;
+std::array<std::array<bool, 9>, 9> column;
+std::array<int, 81> matrix;
 bool subBox[3][3][9];
 bool finished = false;
 

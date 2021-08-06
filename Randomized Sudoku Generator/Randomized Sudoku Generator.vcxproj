@@ -173,19 +173,20 @@
   <ItemGroup>
     <ClCompile Include="PNG Loader\stb_image.cpp" />
     <ClCompile Include="Randomized Sudoku Generator.cpp" />
-    <ClCompile Include="Viewing\Buffer.cpp" />
-    <ClCompile Include="Viewing\Shader.cpp" />
-    <ClCompile Include="Viewing\Texture.cpp" />
+    <ClCompile Include="Viewing\BuffersAndStorage\Buffer.cpp" />
+    <ClCompile Include="Viewing\BuffersAndStorage\Shader.cpp" />
+    <ClCompile Include="Viewing\BuffersAndStorage\Texture.cpp" />
     <ClCompile Include="Viewing\Visuals.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PNG Loader\stb_image.h" />
-    <ClInclude Include="Viewing\Buffer.h" />
-    <ClInclude Include="Viewing\Shader.h" />
-    <ClInclude Include="Viewing\Texture.h" />
+    <ClInclude Include="Viewing\BuffersAndStorage\Buffer.h" />
+    <ClInclude Include="Viewing\BuffersAndStorage\Shader.h" />
+    <ClInclude Include="Viewing\BuffersAndStorage\Texture.h" />
+    <ClInclude Include="Viewing\SetVertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Viewing\ShaderInfo.text" />
+    <None Include="Viewing\BuffersAndStorage\ShaderInfo.text" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
